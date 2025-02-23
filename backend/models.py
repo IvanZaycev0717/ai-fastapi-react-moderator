@@ -22,10 +22,10 @@ class Comment(Base):
         String(USERNAME_LENGTH),
         nullable=False,
         index=True)
-    original: Mapped[str] = mapped_column(
+    original_text: Mapped[str] = mapped_column(
         String(COMMENT_LENGTH),
         nullable=False)
-    censored: Mapped[str] = mapped_column(
+    censored_text: Mapped[str] = mapped_column(
         String(COMMENT_LENGTH),
         nullable=True)
     is_toxic: Mapped[bool] = mapped_column(index=True)

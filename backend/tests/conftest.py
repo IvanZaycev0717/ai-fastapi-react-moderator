@@ -14,10 +14,12 @@ from settings import SQLALCHEMY_TEST_DATABASE_URL
 from tests.fixtures import NOT_TOXIC_COMMENTS_LIST
 from utils import get_current_date
 
+
 @pytest.fixture
 def db_engine_test():
     engine = create_async_engine(SQLALCHEMY_TEST_DATABASE_URL)
     return engine
+
 
 @pytest.fixture
 async def db_session_test(db_engine_test):
@@ -49,7 +51,7 @@ async def fill_database_with_NOT_toxic_comments(db_session_test):
     comments = [
         Comment(
             username=f'user{i}',
-            original=NOT_TOXIC_COMMENTS_LIST[i],
+            original_text=NOT_TOXIC_COMMENTS_LIST[i],
             is_toxic=False,
             date=get_current_date()) for i in range(5)
         ]
@@ -61,4 +63,3 @@ async def fill_database_with_NOT_toxic_comments(db_session_test):
 @pytest.fixture
 async def fill_database_with_toxic_comments(db_session_test):
     pass
-    

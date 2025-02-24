@@ -9,9 +9,11 @@ from crud.comments import (
     get_all_comments,
     get_one_comment,
     create_comment,
-    delete_comment
+    delete_comment,
+    update_comment
     )
-from services.utils import get_current_date
+from services.utils import get_current_date, is_text_valid
+from settings import MAX_COMMENT_LENGTH, MIN_COMMENT_LENGTH
 
 router = APIRouter(prefix='/comments', tags=['comments'])
 
@@ -62,7 +64,34 @@ async def create_comment_endpoint(
     )
     return {'comment_id': comment_id}
 
+
 # UPDATE
+@router.put('/{comment_id}/edit/{edited_text}')
+async def update_comment_endpoint(
+    db_session: Annotated[AsyncSession, Depends(get_db_session)],
+    comment_id: int,
+    edited_text: str
+        ):
+    if not is_text_valid(edited_text):
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail=(f'edited_text must be between {MIN_COMMENT_LENGTH}'
+                    f'and {MAX_COMMENT_LENGTH} characters')
+                    )
+    censored_text = 'After Updating'
+    updated_comment = await update_comment(
+        db_session=db_session,
+        comment_id=comment_id,
+        original_text=edited_text,
+        censored_text=censored_text,
+        is_toxic=True
+        )
+    if not updated_comment:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail='comment not found'
+            )
+    return {'detail': 'Comment was updated'}
 
 
 # DELETE

@@ -52,7 +52,7 @@ async def update_comment(
         comment_id: int,
         original_text: str | None,
         censored_text: str | None,
-        is_toxic: bool) -> str:
+        is_toxic: bool) -> bool:
     query = update(Comment).where(Comment.id == comment_id).values(
         original_text=original_text,
         censored_text=censored_text,
@@ -62,8 +62,8 @@ async def update_comment(
         comment_updated = await session.execute(query)
         await session.commit()
         if comment_updated.rowcount == 0:
-            return f'FAILED to update comment with id={comment_id}'
-        return f'SUCCESS! Comment with id={comment_id} updated'
+            return False
+        return True
 
 
 # DELETE

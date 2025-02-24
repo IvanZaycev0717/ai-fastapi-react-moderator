@@ -3,7 +3,7 @@ from typing import Any
 from sqlalchemy import (delete, select, update)
 from sqlalchemy.ext.asyncio import AsyncSession
 
-from models import Comment
+from models.comments import Comment
 
 
 # CREATE

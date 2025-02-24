@@ -7,12 +7,12 @@ from sqlalchemy.ext.asyncio import (
 from sqlalchemy.orm import sessionmaker
 
 
-from db_connection import get_db_session
+from database.db_connection import get_db_session
 from main import app
-from models import Base, Comment
+from models.comments import Base, Comment
 from settings import SQLALCHEMY_TEST_DATABASE_URL
 from tests.fixtures import NOT_TOXIC_COMMENTS_LIST
-from utils import get_current_date
+from services.utils import get_current_date
 
 
 @pytest.fixture

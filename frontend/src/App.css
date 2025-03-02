@@ -9,12 +9,15 @@
 
 body {
   min-height: 100vh;
-  font-family: 'Brush Script MT', cursive;
+  font-family: Arial, Helvetica, sans-serif;
   margin: 0;
   padding: 0;
-  font-size: 24px;
+  font-size: 20px;
 }
 
+hr {
+  margin-bottom: 10px;
+}
 .app {
   background-color: #faf;
 }
@@ -132,6 +135,67 @@ body {
   height: 30px;
   vertical-align: middle;
   fill: currentColor;
+}
+
+.create-comment-modal {
+  display: flex;
+  justify-content: center;
+  margin-top: 15%;
+}
+
+.comment-form {
+  display: flex;
+  flex-direction: column;
+  width: 40%;
+  max-width: 1200px;
+  background-color: white;
+  padding: 50px;
+  border: 1px solid #ccc;
+  border-radius: 10px;
+}
+
+.comment-form__input {
+  display: block;
+  font-size: 24px;
+  margin-bottom: 10px;
+  padding: 10px;
+  border: 1px solid gainsboro;
+  border-radius: 5px;
+}
+
+.comment-form__input:focus {
+  background-color: white;
+}
+
+.comment-form__textarea {
+  display: block;
+  font-size: 24px;
+  margin-bottom: 20px;
+  padding: 10px;
+  border: 1px solid gainsboro;
+  border-radius: 5px;
+  height: 300px;
+}
+
+.comment-form__button {
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  background: transparent;
+  padding: 10px 16px;
+  font-size: 18px;
+  margin-right: 10px;
+  background-color: white;
+}
+
+.comment-form__button svg {
+  width: 30px;
+  height: 30px;
+  vertical-align: middle;
+  fill: currentColor;
+}
+
+.comment-form__button:enabled {
+  border: 1px solid black;
 }
 
 

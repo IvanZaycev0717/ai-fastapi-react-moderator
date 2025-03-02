@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import reactLogo from "./assets/react.svg";
 import viteLogo from "/vite.svg";
 import "./App.css";
+import { Modal } from "@mui/material";
 
 const BASE_URL = "http://127.0.0.1:8000/comments/";
 
@@ -10,6 +11,7 @@ function App() {
   const [newComment, setNewComment] = useState("");
   const [username, setUsername] = useState("");
   const [commentId, setCommentId] = useState(0);
+  const [openCreateComment, setOpenCreateComment] = useState(false);
 
   useEffect(() => {
     fetch(BASE_URL)
@@ -43,6 +45,7 @@ function App() {
         .finally(() => {
           setNewComment("");
           setUsername("");
+          setOpenCreateComment(false);
         });
     } else {
       fetch(BASE_URL + `${commentId}/edit/${newComment}`, { method: "PUT" })
@@ -59,6 +62,7 @@ function App() {
           setNewComment("");
           setUsername("");
           setCommentId(0);
+          setOpenCreateComment(false);
         });
     }
   };
@@ -86,6 +90,7 @@ function App() {
         throw response;
       })
       .then((data) => {
+        setOpenCreateComment(true);
         setUsername(data.username);
         setNewComment(data.censored_text);
         setCommentId(data.id);
@@ -133,21 +138,81 @@ function App() {
 
   return (
     <>
+      <Modal
+        open={openCreateComment}
+        onClose={() => {
+          setOpenCreateComment(false);
+          setCommentId(0);
+          setUsername("");
+          setNewComment("");
+        }}
+      >
+        <div className="create-comment-modal">
+          <form className="comment-form">
+            <input
+              className="comment-form__input"
+              type="text"
+              placeholder="Напишите ваше имя"
+              value={username}
+              onChange={(e) => setUsername(e.target.value)}
+            />
+            <textarea
+              className="comment-form__textarea"
+              type="text"
+              placeholder="Напишите комментарий"
+              value={newComment}
+              onChange={(e) => setNewComment(e.target.value)}
+            />
+            <button
+              className="comment-form__button"
+              type="submit"
+              disabled={!newComment || !username}
+              onClick={publishComment}
+            >
+              <svg
+                viewBox="0 0 24 24"
+                xmlns="http://www.w3.org/2000/svg"
+                fill="#000000"
+              >
+                <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+                <g
+                  id="SVGRepo_tracerCarrier"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                ></g>
+                <g id="SVGRepo_iconCarrier">
+                  {" "}
+                  <rect x="0" fill="none" width="24" height="24"></rect>{" "}
+                  <g>
+                    {" "}
+                    <path d="M21 14v5c0 1.105-.895 2-2 2H5c-1.105 0-2-.895-2-2V5c0-1.105.895-2 2-2h5v2H5v14h14v-5h2z"></path>{" "}
+                    <path d="M21 7h-4V3h-2v4h-4v2h4v4h2V9h4"></path>{" "}
+                  </g>{" "}
+                </g>
+              </svg>
+              Опубликовать
+            </button>
+          </form>
+        </div>
+      </Modal>
       <div className="header">
         <div className="header__title">
           <h1>неТоксичные комментарии</h1>
         </div>
         <div className="header__my-links">
-          <a href="https://github.com/IvanZaycev0717/">
+          <a target="_blank" href="https://github.com/IvanZaycev0717/">
             <img src="./src/assets/github.svg" alt="" />
           </a>
-          <a href="https://telegram.me/ivanzaycev0717">
+          <a target="_blank" href="https://telegram.me/ivanzaycev0717">
             <img src="./src/assets/telegram.svg" alt="" />
           </a>
         </div>
       </div>
       <div className="write-comment-container">
-        <button className="write-comment-container__button">
+        <button
+          className="write-comment-container__button"
+          onClick={() => setOpenCreateComment(true)}
+        >
           <svg
             viewBox="0 0 24 24"
             xmlns="http://www.w3.org/2000/svg"
@@ -176,7 +241,7 @@ function App() {
         {comments.map((comment) => (
           <div className="comment-card" key={comment.id}>
             <p>
-              <strong>{comment.username}</strong> 📅 {timeAgo(comment.date)}
+              <strong>{comment.username}</strong> • {timeAgo(comment.date)}
             </p>
             <hr></hr>
             <p>{comment.censored_text}</p>
@@ -258,32 +323,6 @@ function App() {
             </div>
           </div>
         ))}
-      </div>
-      <div>
-        <form className="comment-form">
-          <input
-            className="comment-form__input"
-            type="text"
-            placeholder="Напишите ваше имя"
-            value={username}
-            onChange={(e) => setUsername(e.target.value)}
-          />
-          <input
-            className="comment-form__input"
-            type="text"
-            placeholder="Напишите комментарий"
-            value={newComment}
-            onChange={(e) => setNewComment(e.target.value)}
-          />
-          <button
-            className="comment-form__button"
-            type="submit"
-            disabled={!newComment || !username}
-            onClick={publishComment}
-          >
-            Опубликовать
-          </button>
-        </form>
       </div>
     </>
   );

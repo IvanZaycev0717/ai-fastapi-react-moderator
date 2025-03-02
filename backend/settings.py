@@ -1,3 +1,6 @@
+# CORS
+FRONTEND_URL = 'http://localhost:5173'
+
 # DATABASE
 SQLAlCHEMY_DATABASE_URL = "sqlite+aiosqlite:///data/database.sql"
 SQLALCHEMY_TEST_DATABASE_URL = "sqlite+aiosqlite:///:memory:"

@@ -1,6 +1,4 @@
 import { useEffect, useState } from "react";
-import reactLogo from "./assets/react.svg";
-import viteLogo from "/vite.svg";
 import "./App.css";
 import { Modal } from "@mui/material";
 
@@ -12,11 +10,24 @@ function App() {
   const [username, setUsername] = useState("");
   const [commentId, setCommentId] = useState(0);
   const [openCreateComment, setOpenCreateComment] = useState(false);
+  const [message, setMessage] = useState("");
 
   useEffect(() => {
     fetch(BASE_URL)
-      .then((response) => response.json())
-      .then((data) => setComments(data));
+      .then((response) => {
+        if (response.status === 204) {
+          return null;
+        }
+        return response.json();
+      })
+      .then((data) => {
+        if (data === null) {
+          setMessage("Ещё нет ни одного комментария");
+        } else {
+          setComments(data);
+        }
+      })
+      .catch((error) => console.log(error));
   }, []);
 
   const publishComment = (event) => {
@@ -38,7 +49,7 @@ function App() {
             return response.json();
           }
         })
-        .then((data) => fetchComments())
+        .then(() => fetchComments())
         .catch((error) => {
           alert(error);
         })
@@ -46,6 +57,7 @@ function App() {
           setNewComment("");
           setUsername("");
           setOpenCreateComment(false);
+          setMessage("");
         });
     } else {
       fetch(BASE_URL + `${commentId}/edit/${newComment}`, { method: "PUT" })
@@ -54,7 +66,7 @@ function App() {
             return response.json();
           }
         })
-        .then((data) => fetchComments())
+        .then(() => fetchComments())
         .catch((error) => {
           alert(error);
         })
@@ -75,7 +87,7 @@ function App() {
         }
         throw response;
       })
-      .then((data) => fetchComments())
+      .then(() => fetchComments())
       .catch((error) => {
         alert(error);
       });
@@ -103,12 +115,19 @@ function App() {
   const fetchComments = () => {
     fetch(BASE_URL)
       .then((response) => {
-        if (response.ok) {
-          return response.json();
+        if (response.status === 204) {
+          setComments([]);
+          return null;
         }
-        throw response;
+        return response.json();
       })
-      .then((data) => setComments(data))
+      .then((data) => {
+        if (data === null) {
+          setMessage("Ещё нет ни одного комментария");
+        } else {
+          setComments(data);
+        }
+      })
       .catch((error) => console.log(error));
   };
 
@@ -238,6 +257,7 @@ function App() {
         </button>
       </div>
       <div className="comments-container">
+        {message}
         {comments.map((comment) => (
           <div className="comment-card" key={comment.id}>
             <p>

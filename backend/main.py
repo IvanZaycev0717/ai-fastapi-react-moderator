@@ -5,6 +5,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from models.comments import Base
 from database.db_connection import get_engine
 from routes import comments
+from settings import FRONTEND_URL
 
 
 @asynccontextmanager
@@ -19,9 +20,7 @@ app = FastAPI(lifespan=lifespan)
 
 app.include_router(comments.router)
 
-origins = [
-    "http://localhost:5173",
-]
+origins = [FRONTEND_URL, ]
 
 app.add_middleware(
     CORSMiddleware,

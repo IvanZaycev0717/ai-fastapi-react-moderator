@@ -4,11 +4,11 @@ from sqlalchemy.ext.asyncio import (
 )
 from sqlalchemy.orm import sessionmaker
 
-from settings import SQLAlCHEMY_DATABASE_URL
+from settings import SQLAlCHEMY_DATABASE_URI
 
 
 def get_engine():
-    return create_async_engine(SQLAlCHEMY_DATABASE_URL)
+    return create_async_engine(SQLAlCHEMY_DATABASE_URI)
 
 
 AsyncSessionLocal = sessionmaker(

@@ -1,9 +1,12 @@
+# AI MODERATION CONTROL
+IS_AI_MODERATION_ENABLED = False
+
 # CORS
 FRONTEND_URL = 'http://localhost:5173'
 
 # DATABASE
-SQLAlCHEMY_DATABASE_URL = "sqlite+aiosqlite:///data/database.sql"
-SQLALCHEMY_TEST_DATABASE_URL = "sqlite+aiosqlite:///:memory:"
+SQLAlCHEMY_DATABASE_URI = "sqlite+aiosqlite:///data/database.sql"
+SQLALCHEMY_TEST_DATABASE_URI = "sqlite+aiosqlite:///:memory:"
 
 # COMMENTS PROPERTIES
 MAX_USERNAME_LENGTH = 50

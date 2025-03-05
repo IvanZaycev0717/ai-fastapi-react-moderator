@@ -3,7 +3,7 @@ from fastapi import APIRouter, Depends, HTTPException, status
 from sqlalchemy.ext.asyncio import AsyncSession
 
 
-from schemas.comments import CommentsRequest
+from schemas.comments import CreateCommentRequest, UpdateCommentRequest
 from database.db_connection import get_db_session
 from crud.comments import (
     get_all_comments,
@@ -12,8 +12,8 @@ from crud.comments import (
     delete_comment,
     update_comment
     )
-from services.utils import get_current_date, is_text_valid
-from settings import MAX_COMMENT_LENGTH, MIN_COMMENT_LENGTH
+from services.utils import get_current_date
+from settings import IS_AI_MODERATION_ENABLED
 
 router = APIRouter(prefix='/comments', tags=['comments'])
 
@@ -50,9 +50,11 @@ async def get_one_comment_endpoint(
 @router.post('/', response_model=dict[str, int])
 async def create_comment_endpoint(
     db_session: Annotated[AsyncSession, Depends(get_db_session)],
-    comment: CommentsRequest
+    comment: CreateCommentRequest
         ):
-    censored_text = "ERROR"
+    if not IS_AI_MODERATION_ENABLED:
+        censored_text = comment.original_text
+        was_moderated = False
     is_toxic = True
     comment_id = await create_comment(
         db_session=db_session,
@@ -60,31 +62,30 @@ async def create_comment_endpoint(
         original_text=comment.original_text,
         censored_text=censored_text,
         is_toxic=is_toxic,
+        was_moderated=was_moderated,
         date=get_current_date()
     )
     return {'comment_id': comment_id}
 
 
 # UPDATE
-@router.put('/{comment_id}/edit/{edited_text}')
+@router.patch('/{comment_id}')
 async def update_comment_endpoint(
     db_session: Annotated[AsyncSession, Depends(get_db_session)],
     comment_id: int,
-    edited_text: str
+    edited_text: UpdateCommentRequest
         ):
-    if not is_text_valid(edited_text):
-        raise HTTPException(
-            status_code=status.HTTP_400_BAD_REQUEST,
-            detail=(f'edited_text must be between {MIN_COMMENT_LENGTH}'
-                    f'and {MAX_COMMENT_LENGTH} characters')
-                    )
-    censored_text = 'After Updating'
+    edited_content = edited_text.model_dump()['edited_text']
+    if not IS_AI_MODERATION_ENABLED:
+        censored_text = edited_content
+        was_moderated = False
     updated_comment = await update_comment(
         db_session=db_session,
         comment_id=comment_id,
-        original_text=edited_text,
+        original_text=edited_content,
         censored_text=censored_text,
-        is_toxic=True
+        is_toxic=True,
+        was_moderated=was_moderated,
         )
     if not updated_comment:
         raise HTTPException(

@@ -29,4 +29,5 @@ class Comment(Base):
         String(MAX_COMMENT_LENGTH),
         nullable=True)
     is_toxic: Mapped[bool] = mapped_column(index=True)
+    was_moderated: Mapped[bool] = mapped_column(index=True)
     date: Mapped[datetime] = mapped_column(index=True)

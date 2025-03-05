@@ -1,7 +1,10 @@
 from datetime import datetime
-from typing import Any
+
+
 from sqlalchemy import (delete, select, update)
 from sqlalchemy.ext.asyncio import AsyncSession
+from sqlalchemy.orm import load_only
+
 
 from models.comments import Comment
 
@@ -13,12 +16,15 @@ async def create_comment(
         original_text: str,
         censored_text: str,
         is_toxic: bool,
+        was_moderated: bool,
         date: datetime) -> int:
+    """Создаёт новый комментарий в базе данных."""
     comment = Comment(
         username=username,
         original_text=original_text,
         censored_text=censored_text,
         is_toxic=is_toxic,
+        was_moderated=was_moderated,
         date=date)
     async with db_session.begin():
         db_session.add(comment)
@@ -30,20 +36,22 @@ async def create_comment(
 
 # READ
 async def get_all_comments(
-        db_session: AsyncSession) -> list[tuple[Comment]] | Any:
-    query = select(Comment)
+        db_session: AsyncSession) -> list[Comment | None]:
+    """Извлекает все комментарии из базы данных."""
+    query = select(Comment).options(
+        load_only(Comment.username, Comment.censored_text, Comment.date))
     async with db_session as session:
-        comments = await session.execute(query)
-        return comments.scalars().all()
+        return (await session.scalars(query)).all()
 
 
 async def get_one_comment(
         db_session: AsyncSession,
         comment_id: int) -> Comment | None:
-    query = select(Comment).where(Comment.id == comment_id)
+    """Извлекает один комментарий из базы данных по его ID."""
+    query = select(Comment).where(Comment.id == comment_id).options(
+        load_only(Comment.username, Comment.censored_text))
     async with db_session as session:
-        comments = await session.execute(query)
-        return comments.scalars().first()
+        return await session.scalar(query)
 
 
 # UPDATE
@@ -52,11 +60,14 @@ async def update_comment(
         comment_id: int,
         original_text: str | None,
         censored_text: str | None,
-        is_toxic: bool) -> bool:
+        is_toxic: bool,
+        was_moderated: bool) -> bool:
+    """Обновляет один комментарий в базе данных по его ID."""
     query = update(Comment).where(Comment.id == comment_id).values(
         original_text=original_text,
         censored_text=censored_text,
-        is_toxic=is_toxic
+        is_toxic=is_toxic,
+        was_moderated=was_moderated,
         )
     async with db_session as session:
         comment_updated = await session.execute(query)
@@ -68,6 +79,7 @@ async def update_comment(
 
 # DELETE
 async def delete_comment(db_session: AsyncSession, comment_id: int) -> bool:
+    """Удаляет один комментарий из базы данных по его ID."""
     async with db_session as session:
         query = delete(Comment).where(Comment.id == comment_id)
         comment_deleted = await session.execute(query)

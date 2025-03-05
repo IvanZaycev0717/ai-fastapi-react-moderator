@@ -1,7 +1,6 @@
-from datetime import datetime
 
-from typing import Optional
 from pydantic import BaseModel, Field
+
 
 from settings import (
     MAX_COMMENT_LENGTH,
@@ -9,10 +8,9 @@ from settings import (
     MIN_COMMENT_LENGTH,
     MIN_USERNAME_LENGTH
     )
-from services.utils import get_current_date
 
 
-class CommentsRequest(BaseModel):
+class CreateCommentRequest(BaseModel):
     username: str = Field(
         ...,
         max_length=MAX_USERNAME_LENGTH,
@@ -24,11 +22,9 @@ class CommentsRequest(BaseModel):
         )
 
 
-class CommentSchema(CommentsRequest):
-    censored_text: Optional[str] = Field(
-        None,
+class UpdateCommentRequest(BaseModel):
+    edited_text: str = Field(
+        ...,
         max_length=MAX_COMMENT_LENGTH,
         min_length=MIN_COMMENT_LENGTH
         )
-    is_toxic: bool
-    date: datetime = Field(default_factory=get_current_date)

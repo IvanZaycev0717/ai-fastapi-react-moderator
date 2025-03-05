@@ -11,6 +11,7 @@ function App() {
   const [commentId, setCommentId] = useState(0);
   const [openCreateComment, setOpenCreateComment] = useState(false);
   const [message, setMessage] = useState("");
+  const [isUsernameInputDisabled, setIsUsernameInputDisabled] = useState(false);
 
   useEffect(() => {
     fetch(BASE_URL)
@@ -32,12 +33,13 @@ function App() {
 
   const publishComment = (event) => {
     event?.preventDefault();
-    const json_string = JSON.stringify({
-      username,
-      original_text: newComment,
-    });
 
     if (commentId === 0) {
+      const json_string = JSON.stringify({
+        username,
+        original_text: newComment,
+      });
+
       const requestOptions = {
         method: "POST",
         headers: new Headers({ "Content-Type": "application/json" }),
@@ -58,9 +60,20 @@ function App() {
           setUsername("");
           setOpenCreateComment(false);
           setMessage("");
+          setIsUsernameInputDisabled(false);
         });
     } else {
-      fetch(BASE_URL + `${commentId}/edit/${newComment}`, { method: "PUT" })
+      const json_string = JSON.stringify({
+        edited_text: newComment,
+      });
+
+      const requestOptions = {
+        method: "PATCH",
+        headers: new Headers({ "Content-Type": "application/json" }),
+        body: json_string,
+      };
+
+      fetch(BASE_URL + commentId, requestOptions)
         .then((response) => {
           if (response.ok) {
             return response.json();
@@ -75,6 +88,7 @@ function App() {
           setUsername("");
           setCommentId(0);
           setOpenCreateComment(false);
+          setIsUsernameInputDisabled(false);
         });
     }
   };
@@ -94,6 +108,7 @@ function App() {
   };
 
   const handleEditComment = (comment_id) => {
+    setIsUsernameInputDisabled(true)
     fetch(BASE_URL + comment_id)
       .then((response) => {
         if (response.ok) {
@@ -164,6 +179,7 @@ function App() {
           setCommentId(0);
           setUsername("");
           setNewComment("");
+          setIsUsernameInputDisabled(false);
         }}
       >
         <div className="create-comment-modal">
@@ -174,6 +190,7 @@ function App() {
               placeholder="Напишите ваше имя"
               value={username}
               onChange={(e) => setUsername(e.target.value)}
+              disabled={isUsernameInputDisabled}
             />
             <textarea
               className="comment-form__textarea"

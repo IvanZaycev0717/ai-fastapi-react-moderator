@@ -31,7 +31,7 @@ function App() {
       .catch((error) => console.log(error));
   }, []);
 
-  const publishComment = (event) => {
+  const handlePublishComment = (event) => {
     event?.preventDefault();
 
     if (commentId === 0) {
@@ -203,7 +203,7 @@ function App() {
               className="comment-form__button"
               type="submit"
               disabled={!newComment || !username}
-              onClick={publishComment}
+              onClick={handlePublishComment}
             >
               <svg
                 viewBox="0 0 24 24"

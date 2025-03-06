@@ -1,3 +1,13 @@
+# APP INFO
+APP_TITLE = 'неТоксичные комментарии'
+APP_DESCRIPTION = 'Сервис для выполнения всех операций с комментариями'\
+    ', включая ИИ-модерацию'
+APP_CONTACT = {
+    'Создатель': 'IvanZaycev0717',
+    'GitHub': 'https://github.com/IvanZaycev0717/',
+    'Telegram': 'https://telegram.me/ivanzaycev0717'
+}
+
 # AI MODERATION CONTROL
 IS_AI_MODERATION_ENABLED = False
 

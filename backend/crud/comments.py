@@ -1,10 +1,8 @@
 from datetime import datetime
 
-
-from sqlalchemy import (delete, select, update)
+from sqlalchemy import delete, select, update
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy.orm import load_only
-
 
 from models.comments import Comment
 

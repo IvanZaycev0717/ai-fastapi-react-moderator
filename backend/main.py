@@ -1,11 +1,13 @@
 from contextlib import asynccontextmanager
-from fastapi import FastAPI
-from fastapi.middleware.cors import CORSMiddleware
 
-from models.comments import Base
+from fastapi import FastAPI, HTTPException
+from fastapi.middleware.cors import CORSMiddleware
+from fastapi.responses import JSONResponse
+
 from database.db_connection import get_engine
+from models.comments import Base
 from routes import comments
-from settings import FRONTEND_URL
+from settings import APP_DESCRIPTION, APP_TITLE, APP_CONTACT, FRONTEND_URL
 
 
 @asynccontextmanager
@@ -16,7 +18,11 @@ async def lifespan(app: FastAPI):
         yield
     await engine.dispose()
 
-app = FastAPI(lifespan=lifespan)
+app = FastAPI(
+    title=APP_TITLE,
+    description=APP_DESCRIPTION,
+    contact=APP_CONTACT,
+    lifespan=lifespan)
 
 app.include_router(comments.router)
 
@@ -29,3 +35,10 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
+
+
+@app.exception_handler(HTTPException)
+async def http_exception_handler(request, exc):
+    return JSONResponse(
+        status_code=exc.status_code,
+        content={"message": exc.detail})

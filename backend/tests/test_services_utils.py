@@ -1,4 +1,5 @@
 from datetime import datetime
+
 import pytz
 
 from services.utils import get_current_date

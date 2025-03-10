@@ -12,8 +12,9 @@ from crud.comments import (
     delete_comment,
     update_comment
     )
-from services.utils import get_current_date
+from services.utils import compare_comments, get_current_date
 from settings import IS_AI_MODERATION_ENABLED
+from services.yandexgpt_moderator import moderate_comment
 
 router = APIRouter(prefix='/comments', tags=['comments'])
 
@@ -98,7 +99,11 @@ async def create_comment_endpoint(
     if not IS_AI_MODERATION_ENABLED:
         censored_text = comment.original_text
         was_moderated = False
-    is_toxic = True
+        is_toxic = True
+    else:
+        censored_text = moderate_comment(comment.original_text)
+        is_toxic = compare_comments(comment.original_text, censored_text)
+        was_moderated = True
     comment_id = await create_comment(
         db_session=db_session,
         username=comment.username,
@@ -125,12 +130,17 @@ async def update_comment_endpoint(
     if not IS_AI_MODERATION_ENABLED:
         censored_text = edited_content
         was_moderated = False
+        is_toxic = True
+    else:
+        censored_text = moderate_comment(edited_content)
+        is_toxic = compare_comments(edited_content, censored_text)
+        was_moderated = True
     updated_comment = await update_comment(
         db_session=db_session,
         comment_id=comment_id,
         original_text=edited_content,
         censored_text=censored_text,
-        is_toxic=True,
+        is_toxic=is_toxic,
         was_moderated=was_moderated,
         )
     if not updated_comment:
@@ -165,11 +175,12 @@ async def delete_comment_endpoint(
 
     - **Raises:**
         - **HTTPException**: Если комментарий с данным ID не найден,
-        будет выброшено исключение 
+        будет выброшено исключение
         с кодом статуса 404 и сообщением 'Comment not found'.
 
     - **Returns:**
-        - **dict:** Словарь с сообщением о том, что комментарий был успешно удален.
+        - **dict:** Словарь с сообщением о том,
+        что комментарий был успешно удален.
     """
     comment = await delete_comment(db_session, comment_id)
     if not comment:

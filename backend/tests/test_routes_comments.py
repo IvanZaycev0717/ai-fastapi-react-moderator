@@ -1,6 +1,9 @@
+import pytest
 from fastapi import status
 
-from settings import MAX_COMMENT_LENGTH, MIN_COMMENT_LENGTH
+from settings import (IS_AI_MODERATION_ENABLED,
+                      MAX_COMMENT_LENGTH,
+                      MIN_COMMENT_LENGTH)
 from tests.conftest import generic_number
 
 
@@ -49,6 +52,8 @@ async def test_get_existed_one_comment_endpoint(
     assert len(censored_text) > MIN_COMMENT_LENGTH
 
 
+@pytest.mark.skipif(
+        IS_AI_MODERATION_ENABLED is True, reason="Test skipped AI is ON")
 async def test_create_comment_endpoint_successfully(
         test_client, get_comment_data_in_json):
     async with test_client:
@@ -59,6 +64,8 @@ async def test_create_comment_endpoint_successfully(
     assert comment_id == 1
 
 
+@pytest.mark.skipif(
+        IS_AI_MODERATION_ENABLED is True, reason="Test skipped AI is ON")
 async def test_create_comment_endpoint_with_wrong_data(
         test_client, get_empty_json):
     async with test_client:
@@ -67,6 +74,8 @@ async def test_create_comment_endpoint_with_wrong_data(
     assert response.status_code == status.HTTP_422_UNPROCESSABLE_ENTITY
 
 
+@pytest.mark.skipif(
+        IS_AI_MODERATION_ENABLED is True, reason="Test skipped AI is ON")
 async def test_update_comment_endpoint_successfully(
         test_client,
         fill_database_with_comments,
@@ -82,6 +91,8 @@ async def test_update_comment_endpoint_successfully(
     assert response_detail == 'Comment was updated'
 
 
+@pytest.mark.skipif(
+        IS_AI_MODERATION_ENABLED is True, reason="Test skipped AI is ON")
 async def test_update_unexisted_comment(
         test_client,
         get_json_for_comment_updating):
@@ -95,6 +106,8 @@ async def test_update_unexisted_comment(
     assert response_detail is None
 
 
+@pytest.mark.skipif(
+        IS_AI_MODERATION_ENABLED is True, reason="Test skipped AI is ON")
 async def test_update_comment_with_post_method(
         test_client,
         fill_database_with_comments,
@@ -107,6 +120,8 @@ async def test_update_comment_with_post_method(
     assert response.status_code == status.HTTP_405_METHOD_NOT_ALLOWED
 
 
+@pytest.mark.skipif(
+        IS_AI_MODERATION_ENABLED is True, reason="Test skipped AI is ON")
 async def test_update_comment_with_put_method(
         test_client,
         fill_database_with_comments,

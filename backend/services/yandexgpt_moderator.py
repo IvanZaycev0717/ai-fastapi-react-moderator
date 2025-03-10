@@ -9,7 +9,7 @@ from settings import AI_MODERATOR_REQUEST
 load_dotenv()
 
 
-def moderate_comment(original_text: str) -> str:
+async def moderate_comment(original_text: str) -> str:
     messages = [
         {
             "role": "system",

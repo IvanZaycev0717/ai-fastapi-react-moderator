@@ -101,7 +101,7 @@ async def create_comment_endpoint(
         was_moderated = False
         is_toxic = True
     else:
-        censored_text = moderate_comment(comment.original_text)
+        censored_text = await moderate_comment(comment.original_text)
         is_toxic = compare_comments(comment.original_text, censored_text)
         was_moderated = True
     comment_id = await create_comment(
@@ -132,7 +132,7 @@ async def update_comment_endpoint(
         was_moderated = False
         is_toxic = True
     else:
-        censored_text = moderate_comment(edited_content)
+        censored_text = await moderate_comment(edited_content)
         is_toxic = compare_comments(edited_content, censored_text)
         was_moderated = True
     updated_comment = await update_comment(

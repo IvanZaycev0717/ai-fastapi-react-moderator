@@ -9,7 +9,7 @@ APP_CONTACT = {
 }
 
 # AI MODERATION CONTROL
-IS_AI_MODERATION_ENABLED = True
+IS_AI_MODERATION_ENABLED = False
 AI_MODERATOR_REQUEST = ('Проанализируй комментарий, и если он токсичный,'
                         'то перепиши его полностью, оставив суть,'
                         'убрав всю токсичность и добавив вежливость,'

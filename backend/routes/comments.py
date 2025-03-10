@@ -136,7 +136,7 @@ async def update_comment_endpoint(
     if not updated_comment:
         raise HTTPException(
             status_code=status.HTTP_404_NOT_FOUND,
-            detail='comment not found'
+            detail='Comment not found'
             )
     return {'detail': 'Comment was updated'}
 

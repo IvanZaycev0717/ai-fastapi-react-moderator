@@ -12,6 +12,7 @@ APP_CONTACT = {
 IS_AI_MODERATION_ENABLED = False
 
 # CORS
+BACKEND_URL = 'http://localhost:8000'
 FRONTEND_URL = 'http://localhost:5173'
 
 # DATABASE

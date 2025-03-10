@@ -1,3 +1,5 @@
+import json
+
 import pytest
 from httpx import ASGITransport, AsyncClient
 from mimesis import Generic, Locale
@@ -8,7 +10,7 @@ from database.db_connection import get_db_session
 from main import app
 from models.comments import Base, Comment
 from services.utils import get_current_date
-from settings import SQLALCHEMY_TEST_DATABASE_URI
+from settings import BACKEND_URL, SQLALCHEMY_TEST_DATABASE_URI
 
 generic = Generic(locale=Locale.RU)
 generic_number = 5
@@ -52,7 +54,7 @@ async def test_client(db_session_test):
     app.dependency_overrides[get_db_session] = (lambda: db_session_test)
     return AsyncClient(
         transport=ASGITransport(app=app),
-        base_url="http://localhost"
+        base_url=BACKEND_URL
         )
 
 
@@ -73,3 +75,21 @@ async def fill_database_with_comments(db_session_test,
     async with db_session_test.begin():
         db_session_test.add_all(comments)
         await db_session_test.commit()
+
+
+@pytest.fixture
+async def get_comment_data_in_json(usernames_test, original_texts_test):
+    return json.dumps(
+        {'username': usernames_test[0],
+         'original_text': original_texts_test[0]}
+         )
+
+
+@pytest.fixture
+async def get_empty_json():
+    return json.dumps({})
+
+
+@pytest.fixture
+async def get_json_for_comment_updating():
+    return json.dumps({'edited_text': generic.text.answer()})

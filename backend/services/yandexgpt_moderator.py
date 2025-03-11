@@ -1,8 +1,10 @@
 from __future__ import annotations
+
 import os
+
+from dotenv import load_dotenv
 from yandex_cloud_ml_sdk import YCloudML
 from yandex_cloud_ml_sdk.auth import APIKeyAuth
-from dotenv import load_dotenv
 
 from settings import AI_MODERATOR_REQUEST
 

@@ -1,8 +1,7 @@
 import pytest
 from fastapi import status
 
-from settings import (IS_AI_MODERATION_ENABLED,
-                      MAX_COMMENT_LENGTH,
+from settings import (IS_AI_MODERATION_ENABLED, MAX_COMMENT_LENGTH,
                       MIN_COMMENT_LENGTH)
 from tests.conftest import generic_number
 

@@ -1,20 +1,15 @@
 from typing import Annotated
+
 from fastapi import APIRouter, Body, Depends, HTTPException, Path, status
 from sqlalchemy.ext.asyncio import AsyncSession
 
-
-from schemas.comments import CreateCommentRequest, UpdateCommentRequest
+from crud.comments import (create_comment, delete_comment, get_all_comments,
+                           get_one_comment, update_comment)
 from database.db_connection import get_db_session
-from crud.comments import (
-    get_all_comments,
-    get_one_comment,
-    create_comment,
-    delete_comment,
-    update_comment
-    )
+from schemas.comments import CreateCommentRequest, UpdateCommentRequest
 from services.utils import compare_comments, get_current_date
-from settings import IS_AI_MODERATION_ENABLED
 from services.yandexgpt_moderator import moderate_comment
+from settings import IS_AI_MODERATION_ENABLED
 
 router = APIRouter(prefix='/comments', tags=['comments'])
 

@@ -13,6 +13,7 @@ generic = Generic(Locale.RU)
 
 
 class CreateCommentRequest(BaseModel):
+    """Модель Pydantic для создания комментария."""
     username: str = Field(
         ...,
         max_length=MAX_USERNAME_LENGTH,
@@ -30,6 +31,7 @@ class CreateCommentRequest(BaseModel):
 
 
 class UpdateCommentRequest(BaseModel):
+    """Модель Pydantic для обновления комментария."""
     edited_text: str = Field(
         ...,
         max_length=MAX_COMMENT_LENGTH,

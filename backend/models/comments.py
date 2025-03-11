@@ -1,11 +1,7 @@
 from datetime import datetime
 
 from sqlalchemy import String
-from sqlalchemy.orm import (
-    DeclarativeBase,
-    Mapped,
-    mapped_column
-)
+from sqlalchemy.orm import DeclarativeBase, Mapped, mapped_column
 
 from settings import MAX_COMMENT_LENGTH, MAX_USERNAME_LENGTH
 

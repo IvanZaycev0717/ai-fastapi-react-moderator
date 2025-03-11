@@ -1,11 +1,8 @@
 from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
 
-from crud.comments import (create_comment,
-                           delete_comment,
-                           get_all_comments,
-                           get_one_comment,
-                           update_comment)
+from crud.comments import (create_comment, delete_comment, get_all_comments,
+                           get_one_comment, update_comment)
 from models.comments import Comment
 from services.utils import get_current_date
 from tests.conftest import generic, generic_number

@@ -40,10 +40,6 @@ app.add_middleware(
 
 @app.exception_handler(HTTPException)
 async def http_exception_handler(request, exc):
-    """
-    Перехватывает исключения типа HTTPException и возвращает
-    JSON-ответ с соответствующим статусом и сообщением.
-    """
     return JSONResponse(
         status_code=exc.status_code,
         content={"message": exc.detail})

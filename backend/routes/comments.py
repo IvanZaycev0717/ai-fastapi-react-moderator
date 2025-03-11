@@ -197,7 +197,8 @@ async def update_comment_endpoint(
 
 
 # DELETE COMMENT ENDPOINT
-@router.delete('/{comment_id}', name='Удалить комментарий по его ID')
+@router.delete('/{comment_id}',
+               name='Удалить комментарий по его ID')
 async def delete_comment_endpoint(
     db_session: Annotated[AsyncSession, Depends(get_db_session)],
     comment_id: int = Path(

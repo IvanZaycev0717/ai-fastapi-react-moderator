@@ -214,10 +214,10 @@ function App() {
         </div>
         <div className="header__my-links">
           <a target="_blank" href="https://github.com/IvanZaycev0717/">
-            <img src="./src/assets/github.svg" alt="" />
+            <img src="./assets/github.svg" alt="" />
           </a>
           <a target="_blank" href="https://telegram.me/ivanzaycev0717">
-            <img src="./src/assets/telegram.svg" alt="" />
+            <img src="./assets/telegram.svg" alt="" />
           </a>
         </div>
       </div>

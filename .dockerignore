@@ -16,3 +16,4 @@ cover/
 .venv
 venv/
 venv.bak/
+logs.txt

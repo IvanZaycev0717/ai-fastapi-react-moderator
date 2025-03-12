@@ -26,7 +26,7 @@ AI_MODERATOR_REQUEST = ('Проанализируй комментарий, и �
 
 # CORS
 BACKEND_URL = 'http://localhost:8000'
-FRONTEND_URL = 'http://localhost:5173'
+FRONTEND_URL = 'http://localhost:3000'
 
 
 # DATABASE

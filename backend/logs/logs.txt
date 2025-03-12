@@ -1,0 +1,13 @@
+time 2025-03-12 12:12:53, INFO: method: GET, call: /, ip: 127.0.0.1
+time 2025-03-12 12:12:53, INFO: method: GET, call: /comments/, ip: 127.0.0.1
+time 2025-03-12 12:12:53, INFO: method: GET, call: /comments/, ip: 127.0.0.1
+time 2025-03-12 12:12:53, INFO: method: GET, call: /comments/1, ip: 127.0.0.1
+time 2025-03-12 12:12:53, INFO: method: GET, call: /comments/1, ip: 127.0.0.1
+time 2025-03-12 12:12:53, INFO: method: POST, call: /comments/, ip: 127.0.0.1
+time 2025-03-12 12:12:53, INFO: method: POST, call: /comments/, ip: 127.0.0.1
+time 2025-03-12 12:12:53, INFO: method: PATCH, call: /comments/1, ip: 127.0.0.1
+time 2025-03-12 12:12:53, INFO: method: PATCH, call: /comments/1, ip: 127.0.0.1
+time 2025-03-12 12:12:53, INFO: method: POST, call: /comments/1, ip: 127.0.0.1
+time 2025-03-12 12:12:53, INFO: method: PUT, call: /comments/1, ip: 127.0.0.1
+time 2025-03-12 12:12:53, INFO: method: DELETE, call: /comments/1, ip: 127.0.0.1
+time 2025-03-12 12:12:53, INFO: method: DELETE, call: /comments/1, ip: 127.0.0.1

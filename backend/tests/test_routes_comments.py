@@ -17,7 +17,6 @@ async def test_get_all_comments_endpoint_with_empty_db(test_client):
     async with test_client:
         response = await test_client.get("/comments/")
     assert response.status_code == status.HTTP_204_NO_CONTENT
-    assert response.text == '{"message":"There are NO comments yet"}'
 
 
 async def test_get_all_comments_endpoint_with_full_db(

@@ -1,6 +1,7 @@
 from typing import Annotated
 
 from fastapi import APIRouter, Body, Depends, HTTPException, Path, status
+from fastapi.responses import Response
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from crud.comments import (create_comment, delete_comment, get_all_comments,
@@ -39,10 +40,7 @@ async def get_all_comments_endpoint(
     """
     comments = await get_all_comments(db_session)
     if not comments:
-        raise HTTPException(
-            status_code=status.HTTP_204_NO_CONTENT,
-            detail='There are NO comments yet'
-            )
+        return Response(status_code=status.HTTP_204_NO_CONTENT)
     return comments
 
 

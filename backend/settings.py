@@ -7,23 +7,29 @@ APP_CONTACT = {
     'GitHub': 'https://github.com/IvanZaycev0717/',
     'Telegram': 'https://telegram.me/ivanzaycev0717'
 }
+# Если хотите запретить доступ к OpenAPI: OPEN_API_ACCESS = None
+OPEN_API_ACCESS = '/openapi.json'
+
 
 # AI MODERATION CONTROL
 IS_AI_MODERATION_ENABLED = False
-AI_MODERATOR_REQUEST = ('Проанализируй комментарий, и если он токсичный,'
-                        'то перепиши его полностью, оставив суть,'
-                        'убрав всю токсичность и добавив вежливость,'
-                        'а если комментарий не токсичный,'
-                        'то верни комментарий'
+AI_MODERATOR_REQUEST = ('Проанализируй комментарий, и если он токсичный, '
+                        'то перепиши его полностью, оставив суть, '
+                        'убрав всю токсичность и добавив вежливость, '
+                        'а если комментарий не токсичный, '
+                        'то верни комментарий '
                         'точь-в-точь таким как он был прислан, без изменений.')
+
 
 # CORS
 BACKEND_URL = 'http://localhost:8000'
-FRONTEND_URL = 'http://localhost:3000'
+FRONTEND_URL = 'http://localhost:5173'
+
 
 # DATABASE
 SQLAlCHEMY_DATABASE_URI = "sqlite+aiosqlite:///data/database.sql"
 SQLALCHEMY_TEST_DATABASE_URI = "sqlite+aiosqlite:///:memory:"
+
 
 # PROMPT PROPERTIES
 # username
@@ -33,6 +39,7 @@ MIN_USERNAME_LENGTH = 2
 # comments
 MAX_COMMENT_LENGTH = 1000
 MIN_COMMENT_LENGTH = 2
+
 
 # TIMEZONE
 TIMEZONE = 'Europe/Moscow'

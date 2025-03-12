@@ -7,7 +7,8 @@ from fastapi.responses import JSONResponse
 from database.db_connection import get_engine
 from models.comments import Base
 from routes import comments
-from settings import APP_CONTACT, APP_DESCRIPTION, APP_TITLE, FRONTEND_URL
+from settings import (APP_CONTACT, APP_DESCRIPTION,
+                      APP_TITLE, FRONTEND_URL, OPEN_API_ACCESS)
 
 
 @asynccontextmanager
@@ -23,7 +24,8 @@ app = FastAPI(
     title=APP_TITLE,
     description=APP_DESCRIPTION,
     contact=APP_CONTACT,
-    lifespan=lifespan)
+    lifespan=lifespan,
+    openapi_url=OPEN_API_ACCESS)
 
 app.include_router(comments.router)
 
@@ -40,6 +42,7 @@ app.add_middleware(
 
 @app.exception_handler(HTTPException)
 async def http_exception_handler(request, exc):
+    """Обрабатывает исключения в приложении."""
     return JSONResponse(
         status_code=exc.status_code,
         content={"message": exc.detail})

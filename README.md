@@ -1,5 +1,5 @@
 # :cold_sweat: неТоксичные комментарии
-![Image](https://github.com/user-attachments/assets/5c48ec4e-1d44-4cde-ae38-3677e1e31535)
+![Image](https://github.com/user-attachments/assets/cd765111-14e9-4507-bb4f-ab17e3a3823f)
 Веб-приложение на основе Искусственного Интеллекта (ИИ), которое анализирует полученные комменатарии, и **если они оказываются токсичными, переписывает их, убирая токсичность, но сохраняя смысл.**
 
 ## :battery: Технологии
@@ -26,6 +26,11 @@
 ## :department_store: Архитектура приложения
 ![Image](https://github.com/user-attachments/assets/6b5ef960-e231-4aab-8f3b-e10d6f4bfa94)
 Приложение построено на клиент-серверной архитектуре и представляет собой многоуровневый монолит. В качестве архитектурного стиля для бекенда использован MVC.
-## Спецификация OpenAPI
+
+## :ocean: Демонстрация работы клиентской части
+![Image](https://github.com/user-attachments/assets/5c48ec4e-1d44-4cde-ae38-3677e1e31535)
+
+## :clipboard: Спецификация OpenAPI
+
 
 

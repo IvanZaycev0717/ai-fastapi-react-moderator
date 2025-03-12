@@ -1,0 +1,21 @@
+services:
+  frontend:
+    build: ./frontend/
+    command: serve -s dist
+    ports:
+      - 3000:3000
+    depends_on:
+      - backend
+    
+  backend:
+    build: ./backend/
+    command: uvicorn main:app --host 0.0.0.0 --port 8000
+    ports:
+      - 8000:8000
+    volumes:
+      - sqlite_data:/app/data
+      - logs:/app/logs
+  
+volumes:
+  sqlite_data:
+  logs:

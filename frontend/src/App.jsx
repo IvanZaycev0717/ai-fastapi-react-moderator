@@ -51,6 +51,9 @@ function App() {
           if (response.ok) {
             return response.json();
           }
+          throw new Error(
+            "Имя и комментарий должны содержать от 2 до 1000 символов"
+          );
         })
         .then(() => fetchComments())
         .catch((error) => {
@@ -79,6 +82,9 @@ function App() {
           if (response.ok) {
             return response.json();
           }
+          throw new Error(
+            "При редактировании текст комментария должен быть от 2 до 1000 символов."
+          );
         })
         .then(() => fetchComments())
         .catch((error) => {

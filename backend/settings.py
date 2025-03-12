@@ -1,3 +1,6 @@
+import logging
+import os
+
 # APP INFO
 APP_TITLE = 'неТоксичные комментарии'
 APP_DESCRIPTION = 'Сервис для выполнения всех операций с комментариями'\
@@ -43,3 +46,10 @@ MIN_COMMENT_LENGTH = 2
 
 # TIMEZONE
 TIMEZONE = 'Europe/Moscow'
+
+# LOGGING
+LOGGING_LEVEL = logging.INFO
+LOGGING_DIRNAME = 'logs'
+LOGGING_FILENAME = 'logs.txt'
+LOGGING_FILE_FOLDER = os.path.join(
+    os.getcwd(), LOGGING_DIRNAME, LOGGING_FILENAME)

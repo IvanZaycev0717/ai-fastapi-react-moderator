@@ -1,14 +1,13 @@
 from __future__ import annotations
 
-import os
 
-from dotenv import load_dotenv
 from yandex_cloud_ml_sdk import YCloudML
 from yandex_cloud_ml_sdk.auth import APIKeyAuth
 
+from schemas.envs import Settings
 from settings import AI_MODERATOR_REQUEST
 
-load_dotenv()
+settings = Settings()
 
 
 async def moderate_comment(original_text: str) -> str:
@@ -24,8 +23,8 @@ async def moderate_comment(original_text: str) -> str:
     ]
 
     sdk = YCloudML(
-        folder_id=os.getenv('YC_FOLDER_ID'),
-        auth=APIKeyAuth(os.getenv('YC_SECRET_KEY')),
+        folder_id=settings.yc_folder_id,
+        auth=APIKeyAuth(settings.yc_secret_key),
         enable_server_data_logging=False,
     )
     result = (

@@ -25,6 +25,7 @@ share/python-wheels/
 *.egg
 MANIFEST
 logs.txt
+database.sql
 
 # PyInstaller
 #  Usually these files are written by a python script from a template
@@ -50,6 +51,7 @@ coverage.xml
 .hypothesis/
 .pytest_cache/
 cover/
+*.sql
 
 # Translations
 *.mo

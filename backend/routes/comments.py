@@ -3,6 +3,7 @@ from typing import Annotated
 from fastapi import APIRouter, Body, Depends, HTTPException, Path, status
 from fastapi.responses import Response
 from sqlalchemy.ext.asyncio import AsyncSession
+import yandex_cloud_ml_sdk
 
 from crud.comments import (create_comment, delete_comment, get_all_comments,
                            get_one_comment, update_comment)
@@ -117,9 +118,13 @@ async def create_comment_endpoint(
         was_moderated = False
         is_toxic = True
     else:
-        censored_text = await moderate_comment(comment.original_text)
-        is_toxic = compare_comments(comment.original_text, censored_text)
-        was_moderated = True
+        try:
+            censored_text = await moderate_comment(comment.original_text)
+            is_toxic = compare_comments(comment.original_text, censored_text)
+            was_moderated = True
+        except yandex_cloud_ml_sdk._exceptions.AioRpcError:
+            raise HTTPException(status_code=status.HTTP_502_BAD_GATEWAY,
+                                detail='YandexGPT server issue')
     comment_id = await create_comment(
         db_session=db_session,
         username=comment.username,
@@ -175,9 +180,13 @@ async def update_comment_endpoint(
         was_moderated = False
         is_toxic = True
     else:
-        censored_text = await moderate_comment(edited_content)
-        is_toxic = compare_comments(edited_content, censored_text)
-        was_moderated = True
+        try:
+            censored_text = await moderate_comment(edited_content)
+            is_toxic = compare_comments(edited_content, censored_text)
+            was_moderated = True
+        except yandex_cloud_ml_sdk._exceptions.AioRpcError:
+            raise HTTPException(status_code=status.HTTP_502_BAD_GATEWAY,
+                                detail='YandexGPT server issue')
     updated_comment = await update_comment(
         db_session=db_session,
         comment_id=comment_id,

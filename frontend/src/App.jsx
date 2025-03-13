@@ -17,6 +17,9 @@ function App() {
   useEffect(() => {
     fetch(BASE_URL)
       .then((response) => {
+        if (!(response.ok)) {
+          throw new Error("Проверьте, включен ли backend")
+        }
         if (response.status === 204) {
           return null;
         }
@@ -51,9 +54,14 @@ function App() {
           if (response.ok) {
             return response.json();
           }
-          throw new Error(
-            "Имя и комментарий должны содержать от 2 до 1000 символов"
-          );
+          if (response.status === 422) {
+            throw new Error(
+              "Имя и комментарий должны содержать от 2 до 1000 символов"
+            );
+          }
+          if (response.status === 502) {
+            throw new Error("Невозможно получить доступ к YandexGPT");
+          }
         })
         .then(() => fetchComments())
         .catch((error) => {
@@ -82,9 +90,14 @@ function App() {
           if (response.ok) {
             return response.json();
           }
-          throw new Error(
-            "При редактировании текст комментария должен быть от 2 до 1000 символов."
-          );
+          if (response.status === 422) {
+            throw new Error(
+              "Имя и комментарий должны содержать от 2 до 1000 символов"
+            );
+          }
+          if (response.status === 502) {
+            throw new Error("Невозможно получить доступ к YandexGPT");
+          }
         })
         .then(() => fetchComments())
         .catch((error) => {

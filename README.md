@@ -4,8 +4,8 @@
 
 ## :battery: Технологии
 ### :fax: Backend
-- Python 3.12.4
-- FastAPI 0.115.8
+- Python 3.12
+- FastAPI
 - SQLAlchemy 2
 - aiosqlite
 - grpcio
@@ -16,21 +16,27 @@
 
 ### :calling: Frontend
 - React 19
-- mui/material
+- Material UI
 - Vite
-- eslint
 
 ### :inbox_tray: Общие технологии
 - Docker
 
 ## :department_store: Архитектура приложения
 ![Image](https://github.com/user-attachments/assets/6b5ef960-e231-4aab-8f3b-e10d6f4bfa94)
-Приложение построено на клиент-серверной архитектуре и представляет собой многоуровневый монолит. В качестве архитектурного стиля для бекенда использован MVC.
+В приложении использована распределённая архитектура с архитектурным стилем в виде микросервисов
 
 ## :ocean: Демонстрация работы клиентской части
 ![Image](https://github.com/user-attachments/assets/5c48ec4e-1d44-4cde-ae38-3677e1e31535)
 
 ## :clipboard: Спецификация OpenAPI
+![Image](https://github.com/user-attachments/assets/f5115842-06a8-4a21-b7f1-980e7f6243e1)
+Спецификация OpenAPI доступна по адресу `http://localhost:8000/docs`
+
+## :slot_machine: Тестирование
+![Image](https://github.com/user-attachments/assets/981c8039-59e6-4a07-82af-0ad12cb5be24)
+Приложение польностью протестировано и готово к работе.
+
 
 
 
